@@ -1,6 +1,6 @@
 """
-support_agent.py -- eComBot support agent (Day 01 -> Day 02 -> Day 03 -> Day 04)
----------------------------------------------------------------------------------
+support_agent.py -- eComBot support agent (Day 01 -> Day 02 -> Day 03 -> Day 04 -> Day 05)
+-------------------------------------------------------------------------------------------
 Follows the same LlmAgent + LiteLlm + OpenRouter pattern used in
 hello_agent.py / agent.py from the Day 01 and Day 03 demos, but scoped
 to the eComBot electronics e-commerce capstone.
@@ -17,17 +17,19 @@ Day 03: real tool calling + in-memory session state, mirroring the
         consistent across all instruction experiments.
 Day 04: PostgreSQL-backed tools (orders, products) + Redis session
         persistence + conversation history storage.
+Day 05: RAG with ChromaDB for knowledge-grounded answers + hallucination guards.
 
 Discovery for ADK Web:
     `root_agent` at module level is what `adk web` looks for.
-    By default this loads v2 (the current best-performing instruction,
-    see tests/test_prompt_variants.md). Override with ECOMBOT_INSTRUCTION_VERSION.
+    By default this loads v4 (grounded instruction with RAG).
+    Override with ECOMBOT_INSTRUCTION_VERSION.
 
 Run directly:
     python -m src.agents.support_agent
 """
 
 import asyncio
+import logging
 import os
 import sys
 from pathlib import Path
@@ -42,6 +44,9 @@ from src.config.settings import MODEL, require_api_key
 from src.session import make_runner
 from src.tools.order_tools import cancel_order, get_customer_context, get_order_status, save_customer_name
 from src.tools.product_tools import check_stock, get_product_by_id, lookup_product
+from src.tools.rag_tool import search_knowledge_base
+
+logger = logging.getLogger(__name__)
 
 _AGENT_DIR = Path(__file__).resolve().parent
 
@@ -49,32 +54,45 @@ INSTRUCTION_FILES = {
     "v1": _AGENT_DIR / "support_instructions_v1.txt",
     "v2": _AGENT_DIR / "support_instructions_v2.txt",
     "v3": _AGENT_DIR / "support_instructions_v3.txt",
+    "v4": _AGENT_DIR / "support_instructions_v4_grounded.txt",  # Day 05 - RAG grounded
 }
 
 
 # Appended to every tone variant so tool-calling behavior stays
-# consistent regardless of which persona (v1/v2/v3) is loaded.
-# Updated for Day 04 with PostgreSQL-backed tools.
+# consistent regardless of which persona (v1/v2/v3/v4) is loaded.
+# Updated for Day 05 with RAG retrieval tool.
 TOOL_USAGE_ADDENDUM = """
 Tool usage:
-- When a customer asks about their order, use the get_order_status tool.
-  Ask for the order ID if it is missing. Do not guess order details --
-  use the tool output directly in your response.
-- Use cancel_order when a customer requests to cancel an order. Check
-  the order status first and explain if cancellation is not possible.
-- Use lookup_product to search for products by name (partial match works).
-  Use get_product_by_id for exact product ID lookups.
-  Use check_stock to verify current availability.
-- Call save_customer_name as soon as the customer introduces themselves
-  by name, then use their name naturally in later replies without
-  asking for it again.
-- Call get_customer_context if you need to recall what's already known
-  about the customer in this session (their name, their last order).
-- Never invent product details, prices, or order information. Always use
-  the tools to retrieve real data from the database.
+
+Knowledge Base (Day 05 - RAG):
+- For questions about products, policies, shipping, warranty, returns, or general
+  support topics, FIRST use search_knowledge_base to retrieve relevant information.
+- Base your answer ONLY on what search_knowledge_base returns.
+- If search_knowledge_base returns no results or insufficient information, use the
+  fallback message from your instructions.
+- Never guess product specs, prices, or policies not in the retrieved context.
+
+Order Management:
+- When a customer asks about their order status, use get_order_status.
+  Ask for the order ID if missing. Use tool output directly.
+- Use cancel_order when a customer requests cancellation. Check status first
+  and explain if cancellation is not possible.
+
+Product Tools (deprecated - use RAG instead):
+- Use lookup_product, get_product_by_id, check_stock ONLY if search_knowledge_base
+  doesn't provide sufficient product information.
+
+Customer Context:
+- Call save_customer_name when the customer introduces themselves.
+- Call get_customer_context to recall stored session information.
+
+Grounding Rule:
+- Never invent information not provided by tools or retrieved knowledge.
+- If uncertain, use the fallback message from instructions.
 """.strip()
 
 TOOLS = [
+    search_knowledge_base,  # Day 05 - RAG retrieval tool (use first for grounding)
     get_order_status,
     cancel_order,
     save_customer_name,
@@ -85,7 +103,7 @@ TOOLS = [
 ]
 
 
-def load_instruction(version: str = "v2") -> str:
+def load_instruction(version: str = "v4") -> str:
     """Load one of the instruction variants from disk, with the tool-usage addendum appended."""
     path = INSTRUCTION_FILES.get(version)
     if path is None or not path.exists():
@@ -94,18 +112,23 @@ def load_instruction(version: str = "v2") -> str:
     return f"{base}\n\n{TOOL_USAGE_ADDENDUM}"
 
 
-def build_support_agent(version: str = "v2") -> LlmAgent:
+def build_support_agent(version: str = "v4") -> LlmAgent:
     """Build the eComBot support agent using the chosen instruction version + tools."""
     instruction = load_instruction(version)
+    
+    # Day 05: Add RAG context retrieval before each response
+    # This will be handled by injecting retrieved context into system messages
+    
     return LlmAgent(
         name="ecombot_support_agent",
         model=LiteLlm(model=MODEL),
         instruction=instruction,
         description=(
             "eComBot support agent for an electronics e-commerce store -- "
-            "handles order status, cancellations, product discovery, and "
-            "general support with PostgreSQL-backed tools and Redis session "
-            "persistence, remembering customer context across turns."
+            "handles order status, cancellations, product discovery with "
+            "RAG-grounded knowledge retrieval, PostgreSQL-backed tools, "
+            "and Redis session persistence. Answers are grounded in retrieved "
+            "evidence with hallucination guards."
         ),
         tools=TOOLS,
     )
@@ -113,7 +136,7 @@ def build_support_agent(version: str = "v2") -> LlmAgent:
 
 # ── ADK Web discovery point ─────────────────────────────────────────────────
 # `adk web` looks for a module-level `root_agent`.
-_default_version = os.environ.get("ECOMBOT_INSTRUCTION_VERSION", "v2")
+_default_version = os.environ.get("ECOMBOT_INSTRUCTION_VERSION", "v4")  # Day 05 - grounded by default
 root_agent = build_support_agent(_default_version)
 
 

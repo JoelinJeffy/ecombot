@@ -1,0 +1,150 @@
+"""
+retriever.py -- ChromaDB retrieval interface (Day 05)
+------------------------------------------------------
+Retrieves relevant context from the knowledge base for grounding agent responses.
+
+Usage:
+    from src.rag.retriever import retrieve
+    results = retrieve("What is the warranty on Dell XPS?", n_results=3)
+"""
+
+import logging
+from pathlib import Path
+from typing import List, Dict, Any, Optional
+
+import chromadb
+from chromadb.config import Settings
+from chromadb.utils import embedding_functions
+
+logger = logging.getLogger(__name__)
+
+# Paths
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+CHROMA_DIR = PROJECT_ROOT / ".chroma"
+COLLECTION_NAME = "ecombot_kb"
+
+# Global ChromaDB client and collection
+_chroma_client: Optional[chromadb.ClientAPI] = None
+_collection: Optional[chromadb.Collection] = None
+
+
+def _get_collection() -> chromadb.Collection:
+    """Get or create ChromaDB collection singleton."""
+    global _chroma_client, _collection
+    
+    if _collection is None:
+        try:
+            _chroma_client = chromadb.PersistentClient(
+                path=str(CHROMA_DIR),
+                settings=Settings(anonymized_telemetry=False)
+            )
+            
+            # Use the same embedding function as indexing (CPU-only to avoid macOS CoreML issues)
+            embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
+                model_name="all-MiniLM-L6-v2"
+            )
+            
+            _collection = _chroma_client.get_collection(
+                name=COLLECTION_NAME,
+                embedding_function=embedding_function
+            )
+            logger.info(f"Loaded ChromaDB collection: {COLLECTION_NAME}")
+        except Exception as e:
+            logger.error(f"Failed to load ChromaDB collection: {e}")
+            raise RuntimeError(
+                f"ChromaDB collection '{COLLECTION_NAME}' not found. "
+                f"Run: python -m src.rag.embed_catalog"
+            )
+    
+    return _collection
+
+
+# Query embeddings are handled automatically by ChromaDB
+# No need for manual embedding - ChromaDB uses same model as indexing
+
+
+def retrieve(
+    query: str,
+    n_results: int = 3,
+    filter_metadata: Optional[Dict[str, Any]] = None
+) -> List[Dict[str, Any]]:
+    """
+    Retrieve most relevant chunks from the knowledge base.
+    
+    Args:
+        query: User query string
+        n_results: Number of chunks to retrieve (default: 3)
+        filter_metadata: Optional metadata filter (e.g., {"type": "faq"})
+    
+    Returns:
+        List of dicts with keys: 'text', 'metadata', 'distance'
+        Returns empty list if retrieval fails or collection is empty.
+    
+    Example:
+        results = retrieve("What is the warranty on laptops?")
+        for result in results:
+            print(result['text'])
+            print(result['metadata'])
+    """
+    try:
+        collection = _get_collection()
+        
+        # Check if collection has documents
+        count = collection.count()
+        if count == 0:
+            logger.warning("ChromaDB collection is empty. Run embed_catalog.py first.")
+            return []
+        
+        # Perform search (ChromaDB handles query embedding automatically)
+        results = collection.query(
+            query_texts=[query],
+            n_results=min(n_results, count),
+            where=filter_metadata if filter_metadata else None
+        )
+        
+        # Format results
+        formatted = []
+        if results and results["documents"] and results["documents"][0]:
+            for i, doc in enumerate(results["documents"][0]):
+                formatted.append({
+                    "text": doc,
+                    "metadata": results["metadatas"][0][i] if results["metadatas"] else {},
+                    "distance": results["distances"][0][i] if results["distances"] else None
+                })
+        
+        logger.debug(f"Retrieved {len(formatted)} chunks for query: {query}")
+        return formatted
+    
+    except Exception as e:
+        logger.error(f"Retrieval failed: {e}")
+        return []
+
+
+def retrieve_products(query: str, n_results: int = 2) -> List[Dict[str, Any]]:
+    """Retrieve product-related chunks only."""
+    return retrieve(query, n_results=n_results)
+
+
+def retrieve_faq(query: str, n_results: int = 3) -> List[Dict[str, Any]]:
+    """Retrieve FAQ chunks only."""
+    return retrieve(query, n_results=n_results, filter_metadata={"type": "faq"})
+
+
+def format_context(results: List[Dict[str, Any]]) -> str:
+    """
+    Format retrieved chunks into a context string for the agent.
+    
+    Args:
+        results: List of retrieval results
+    
+    Returns:
+        Formatted context string
+    """
+    if not results:
+        return ""
+    
+    context = "Retrieved knowledge:\n\n"
+    for i, result in enumerate(results, 1):
+        context += f"[{i}] {result['text']}\n\n"
+    
+    return context.strip()

@@ -9,3 +9,7 @@ python-dotenv==1.0.0
 # Day 04: PostgreSQL and Redis
 psycopg2-binary>=2.9.9
 redis==5.2.1
+
+# Day 05: RAG with ChromaDB (uses built-in embeddings, no API key needed)
+chromadb>=1.0.0
+numpy>=2.0.0 , <2.8.0

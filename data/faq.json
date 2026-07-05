@@ -1,0 +1,134 @@
+[
+  {
+    "id": "faq-001",
+    "category": "Shipping",
+    "question": "What are your shipping options and costs?",
+    "answer": "We offer free standard shipping on all orders above ₹500. Standard shipping takes 3-5 business days. Express shipping (1-2 business days) is available for ₹200. Same-day delivery is available in select metro cities for ₹500 if ordered before 12 PM. All orders are shipped via BlueDart, DTDC, or DHL depending on location and service level."
+  },
+  {
+    "id": "faq-002",
+    "category": "Shipping",
+    "question": "Do you ship internationally?",
+    "answer": "Currently, we only ship within India. International shipping is not available at this time. We are working to expand our shipping capabilities in the future."
+  },
+  {
+    "id": "faq-003",
+    "category": "Shipping",
+    "question": "How can I track my order?",
+    "answer": "Once your order ships, you will receive a tracking number via email and SMS. You can track your order using the order ID on our website or through the carrier's tracking portal. If you have any issues tracking your order, contact our support team with your order number."
+  },
+  {
+    "id": "faq-004",
+    "category": "Returns",
+    "question": "What is your return policy?",
+    "answer": "We offer a 30-day return window for most products. Electronics and accessories can be returned if unopened for a full refund. If opened, a 15% restocking fee applies. Phones have a 15-day return window and must be unused with the box sealed. To initiate a return, contact our support team with your order number. Return shipping is free for defective items, otherwise customers pay return shipping costs."
+  },
+  {
+    "id": "faq-005",
+    "category": "Returns",
+    "question": "How long does it take to process a refund?",
+    "answer": "Refunds are processed within 5-7 business days after we receive and inspect the returned item. The refund will be credited to your original payment method. Bank transfers may take an additional 3-5 business days to reflect in your account."
+  },
+  {
+    "id": "faq-006",
+    "category": "Returns",
+    "question": "Can I exchange a product instead of returning it?",
+    "answer": "Yes, exchanges are available for defective or damaged items. Contact our support team within the return window to arrange an exchange. We will ship the replacement item once the original is received. For non-defective exchanges (like color or size preferences), you must return the original item and place a new order."
+  },
+  {
+    "id": "faq-007",
+    "category": "Payment",
+    "question": "What payment methods do you accept?",
+    "answer": "We accept credit cards (Visa, Mastercard, American Express), debit cards, UPI payments (Google Pay, PhonePe, Paytm), net banking, and cash on delivery (COD) for orders under ₹50,000. We also offer EMI options through select banks for purchases above ₹10,000."
+  },
+  {
+    "id": "faq-008",
+    "category": "Payment",
+    "question": "Is it safe to use my credit card on your website?",
+    "answer": "Yes, all payment transactions are secured using 256-bit SSL encryption and processed through PCI-DSS compliant payment gateways. We do not store your complete card details on our servers. Your payment information is handled securely by our payment partners."
+  },
+  {
+    "id": "faq-009",
+    "category": "Payment",
+    "question": "Do you offer EMI options?",
+    "answer": "Yes, we offer No Cost EMI on purchases above ₹10,000 through select credit cards from HDFC, ICICI, SBI, Axis, and Kotak banks. EMI tenures range from 3 to 12 months depending on the product price. The EMI option is available at checkout."
+  },
+  {
+    "id": "faq-010",
+    "category": "Orders",
+    "question": "Can I cancel or modify my order after placing it?",
+    "answer": "Orders can be cancelled or modified within 2 hours of placement. After that, the order enters processing and cannot be changed. To cancel an order, use the 'Cancel Order' option in your account or contact support immediately. Refunds for cancelled orders are processed within 3-5 business days."
+  },
+  {
+    "id": "faq-011",
+    "category": "Orders",
+    "question": "What happens if my order is delayed?",
+    "answer": "If your order is delayed beyond the estimated delivery date, please contact our support team. We will investigate with the carrier and provide an updated timeline. In case of significant delays (more than 5 days past the ETA), you may be eligible for a shipping fee refund or discount on your next order."
+  },
+  {
+    "id": "faq-012",
+    "category": "Orders",
+    "question": "What if my order arrives damaged?",
+    "answer": "If your order arrives damaged, do not accept the delivery and note the damage with the courier. Contact our support team immediately with photos of the damage. We will arrange a replacement or full refund at no cost to you. This must be reported within 48 hours of delivery."
+  },
+  {
+    "id": "faq-013",
+    "category": "Warranty",
+    "question": "What warranty do you offer on electronics?",
+    "answer": "All electronics come with manufacturer warranty. Laptops typically have 1-3 year warranty with onsite support. Phones have 1 year warranty. Accessories like keyboards and mice have 1-2 year warranty. Some products include accidental damage protection. Warranty details are specified on each product page. For warranty claims, contact our support team with proof of purchase."
+  },
+  {
+    "id": "faq-014",
+    "category": "Warranty",
+    "question": "Does warranty cover accidental damage?",
+    "answer": "Standard manufacturer warranty covers defects in materials and workmanship but does not cover accidental damage, liquid damage, or physical damage caused by misuse. Some premium products like the Dell XPS 15 include 1 year accidental damage protection. Extended warranty with accidental coverage can be purchased separately at checkout."
+  },
+  {
+    "id": "faq-015",
+    "category": "Warranty",
+    "question": "How do I claim warranty service?",
+    "answer": "To claim warranty service, contact our support team with your order number and description of the issue. We will verify warranty eligibility and arrange service through the manufacturer's authorized service center. Most laptops have onsite service where a technician will come to your location. Phones and accessories may need to be sent to a service center."
+  },
+  {
+    "id": "faq-016",
+    "category": "Products",
+    "question": "Are your products genuine and new?",
+    "answer": "Yes, all products sold are 100% genuine, brand new, and sourced directly from authorized distributors or manufacturers. We do not sell refurbished, used, or grey market products. All items come with original packaging, accessories, and valid manufacturer warranty."
+  },
+  {
+    "id": "faq-017",
+    "category": "Products",
+    "question": "Do you offer product demos or trials?",
+    "answer": "We do not offer product trials or demos for shipped items. However, some products can be experienced at our retail partner stores in select cities. For electronics like laptops and phones, we recommend checking detailed specifications and reviews on our website before purchasing."
+  },
+  {
+    "id": "faq-018",
+    "category": "Products",
+    "question": "When will out-of-stock items be available?",
+    "answer": "Out-of-stock items display an expected restock date on the product page. You can sign up for email notifications to be alerted when the item is back in stock. Restock dates are estimates and may change based on supplier availability. Popular items like the Samsung Galaxy S24 typically restock every 2-3 weeks."
+  },
+  {
+    "id": "faq-019",
+    "category": "Account",
+    "question": "How do I create an account?",
+    "answer": "You can create an account during checkout or by clicking 'Sign Up' in the top navigation. You'll need to provide your email address, create a password, and add your shipping address. Creating an account allows you to track orders, save addresses, view order history, and receive personalized recommendations."
+  },
+  {
+    "id": "faq-020",
+    "category": "Account",
+    "question": "I forgot my password. How do I reset it?",
+    "answer": "Click 'Forgot Password' on the login page and enter your registered email address. We will send a password reset link to your email. Click the link and create a new password. If you don't receive the email within 10 minutes, check your spam folder or contact support."
+  },
+  {
+    "id": "faq-021",
+    "category": "Support",
+    "question": "How can I contact customer support?",
+    "answer": "You can reach our customer support team via email at support@ecombot.com, phone at 1800-123-4567 (toll-free, available 9 AM - 9 PM IST, 7 days a week), or live chat on our website. For order-related queries, please have your order number ready. Average response time is under 2 hours during business hours."
+  },
+  {
+    "id": "faq-022",
+    "category": "Support",
+    "question": "Do you offer technical support for products?",
+    "answer": "We provide basic setup assistance and troubleshooting for products purchased from us. For advanced technical issues or repairs, you will need to contact the manufacturer's support or authorized service center. Warranty claims are handled through manufacturer service centers. We can help coordinate warranty service when needed."
+  }
+]

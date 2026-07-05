@@ -1,0 +1,137 @@
+[
+  {
+    "product_id": "PRD-101",
+    "product_name": "Dell XPS 15 Laptop",
+    "category": "Laptops",
+    "price": 89999.00,
+    "specifications": {
+      "processor": "Intel Core i7-13700H (14 cores, up to 5.0 GHz)",
+      "ram": "16GB DDR5 4800MHz (expandable to 64GB)",
+      "storage": "512GB PCIe NVMe SSD (M.2 2280)",
+      "display": "15.6-inch FHD+ (1920x1200) InfinityEdge, anti-glare, 500 nits",
+      "graphics": "NVIDIA GeForce RTX 4050 6GB GDDR6",
+      "battery": "86Wh, up to 12 hours mixed usage",
+      "weight": "1.86 kg",
+      "ports": "2x Thunderbolt 4, 2x USB-C 3.2, 1x SD card reader, 3.5mm audio",
+      "os": "Windows 11 Pro"
+    },
+    "description": "High-performance laptop ideal for video editing, 3D rendering, gaming, and professional creative work. Features premium build quality with aluminum chassis, backlit keyboard, and precision touchpad.",
+    "warranty": "3 years premium onsite support, 1 year accidental damage protection",
+    "shipping": "Free shipping, delivery in 3-5 business days",
+    "return_policy": "30-day return window, full refund if unopened, 15% restocking fee if opened",
+    "best_for": "Content creators, video editors, software developers, gamers",
+    "in_box": "Laptop, 130W USB-C power adapter, quick start guide, warranty card"
+  },
+  {
+    "product_id": "PRD-102",
+    "product_name": "Sony WH-1000XM5 Headphones",
+    "category": "Audio",
+    "price": 29999.00,
+    "specifications": {
+      "type": "Over-ear wireless noise-cancelling headphones",
+      "driver": "30mm carbon fiber composite drivers",
+      "frequency_response": "4Hz - 40kHz",
+      "battery_life": "Up to 30 hours with ANC on, 40 hours with ANC off",
+      "charging": "USB-C fast charging (3 min charge = 3 hours playback)",
+      "bluetooth": "Bluetooth 5.2, multipoint connection, LDAC support",
+      "anc": "Industry-leading dual noise sensor technology with 8 microphones",
+      "weight": "250g"
+    },
+    "description": "Premium wireless headphones with best-in-class noise cancellation, exceptional sound quality, and all-day comfort. Features Speak-to-Chat technology that automatically pauses music when you speak.",
+    "warranty": "2 years manufacturer warranty",
+    "shipping": "Free shipping, delivery in 2-3 business days",
+    "return_policy": "30-day return window, full refund if unused",
+    "best_for": "Travelers, audiophiles, remote workers, commuters",
+    "in_box": "Headphones, carrying case, USB-C charging cable, 3.5mm audio cable, airplane adapter"
+  },
+  {
+    "product_id": "PRD-103",
+    "product_name": "Samsung Galaxy S24",
+    "category": "Phones",
+    "price": 74999.00,
+    "specifications": {
+      "display": "6.2-inch Dynamic AMOLED 2X, 120Hz, 2340x1080, 2600 nits peak brightness",
+      "processor": "Snapdragon 8 Gen 3 for Galaxy",
+      "ram": "8GB",
+      "storage": "256GB UFS 4.0 (non-expandable)",
+      "cameras": "50MP main (f/1.8, OIS) + 12MP ultrawide + 10MP 3x telephoto, 12MP front",
+      "battery": "4000mAh, 25W wired charging, 15W wireless, reverse wireless",
+      "connectivity": "5G, WiFi 6E, Bluetooth 5.3, NFC, UWB",
+      "os": "Android 14 with One UI 6.1",
+      "durability": "IP68 water/dust resistance, Gorilla Glass Victus 2"
+    },
+    "description": "Flagship smartphone with AI-powered photography, long battery life, and premium display. Includes Galaxy AI features like Circle to Search, Live Translate, and Photo Assist.",
+    "warranty": "1 year manufacturer warranty",
+    "shipping": "Free shipping, delivery in 1-2 business days",
+    "return_policy": "15-day return window for phones, full refund if unused and box sealed",
+    "best_for": "Photography enthusiasts, power users, Android fans",
+    "in_box": "Phone, USB-C to USB-C cable, SIM ejector tool, quick start guide",
+    "note": "Currently out of stock. Expected restock: July 15, 2026"
+  },
+  {
+    "product_id": "PRD-104",
+    "product_name": "Apple Magic Keyboard",
+    "category": "Accessories",
+    "price": 12999.00,
+    "specifications": {
+      "type": "Wireless keyboard with numeric keypad",
+      "connection": "Bluetooth",
+      "battery": "Built-in rechargeable lithium-ion, lasts up to 1 month",
+      "charging": "Lightning port",
+      "key_mechanism": "Scissor mechanism with 1mm travel",
+      "compatibility": "Mac with macOS 11.3 or later, iPad with iPadOS 14.5 or later",
+      "dimensions": "41.87 x 11.49 x 1.09 cm",
+      "weight": "369g"
+    },
+    "description": "Extended wireless keyboard with numeric keypad for Mac and iPad. Features comfortable, quiet typing experience and pairs automatically with your devices.",
+    "warranty": "1 year limited warranty",
+    "shipping": "Free shipping, delivery in 2-4 business days",
+    "return_policy": "30-day return window, full refund if unopened",
+    "best_for": "Mac users, accountants, data entry professionals, spreadsheet work",
+    "in_box": "Keyboard, Lightning to USB-C cable, documentation"
+  },
+  {
+    "product_id": "PRD-105",
+    "product_name": "Logitech MX Master 3",
+    "category": "Accessories",
+    "price": 8999.00,
+    "specifications": {
+      "type": "Advanced wireless mouse",
+      "sensor": "Darkfield 4000 DPI high precision sensor",
+      "battery": "Up to 70 days on full charge",
+      "charging": "USB-C fast charging (1 min charge = 3 hours use)",
+      "connectivity": "Bluetooth or 2.4GHz wireless via USB receiver",
+      "buttons": "7 programmable buttons including MagSpeed scroll wheel",
+      "compatibility": "Windows, macOS, Linux, iPadOS, Chrome OS",
+      "multi_device": "Connect up to 3 devices, switch with button press"
+    },
+    "description": "Premium ergonomic wireless mouse designed for productivity. Features ultra-fast MagSpeed electromagnetic scrolling, customizable buttons, and thumb scroll wheel for horizontal navigation.",
+    "warranty": "2 years limited hardware warranty",
+    "shipping": "Free shipping, delivery in 2-3 business days",
+    "return_policy": "30-day return window, full refund if unused",
+    "best_for": "Designers, developers, power users, multi-monitor setups",
+    "in_box": "Mouse, USB-C charging cable, USB receiver, documentation"
+  },
+  {
+    "product_id": "PRD-106",
+    "product_name": "c",
+    "category": "Monitors",
+    "price": 42999.00,
+    "specifications": {
+      "display": "34-inch IPS curved ultrawide, 3440x1440 (WQHD), 21:9 aspect ratio",
+      "refresh_rate": "75Hz",
+      "response_time": "5ms (GtG)",
+      "brightness": "300 nits",
+      "color": "99% sRGB coverage, HDR10 support",
+      "connectivity": "1x USB-C (60W power delivery) + 2x HDMI + 1x DisplayPort",
+      "ergonomics": "Height, tilt, pivot adjustable stand",
+      "speakers": "Built-in 10W stereo speakers"
+    },
+    "description": "Ultrawide curved monitor perfect for multitasking, creative work, and immersive viewing. USB-C connectivity allows single-cable connection to laptops with charging.",
+    "warranty": "3 years manufacturer warranty with on-site service",
+    "shipping": "Free shipping, delivery in 5-7 business days",
+    "return_policy": "15-day return window for monitors, full refund if unopened",
+    "best_for": "Productivity, content creation, coding, stock trading, gaming",
+    "in_box": "Monitor, adjustable stand, USB-C cable, HDMI cable, power cable, quick setup guide"
+  }
+]

@@ -5,6 +5,7 @@ Mirrors the config pattern used in common.py from the Day 01 demo,
 but scoped as a proper package module for the eComBot capstone project.
 
 Day 04: Added Redis and PostgreSQL configuration.
+Day 05: Added embedding model for RAG.
 """
 
 import logging
@@ -34,6 +35,9 @@ APP_NAME = "ecombot"
 # Domain the agent is scoped to (used by tests / verification steps)
 DOMAIN = "electronics e-commerce"
 
+# ── RAG Configuration (Day 05) ──────────────────────────────────────────────
+# ChromaDB uses built-in sentence-transformers for embeddings - no API key needed!
+
 # ── Redis Configuration ─────────────────────────────────────────────────────
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
@@ -59,6 +63,9 @@ def require_api_key() -> None:
             "Create a .env file in this directory with:\n"
             "  OPENROUTER_API_KEY=your-key-here\n"
         )
+
+
+
 
 
 def get_redis_url() -> str:
