@@ -1,0 +1,105 @@
+# LiteLLM Proxy Configuration for eComBot v4 (Day 07)
+# =====================================================
+# This configuration defines two model groups for intelligent routing:
+# 1. fast-faq: Lightweight, low-latency models for simple queries
+# 2. deep-support: More capable models for complex multi-step queries
+#
+# Start proxy: litellm --config config/litellm_config.yaml
+# Or use: python scripts/start_litellm_proxy.py
+
+model_list:
+  # ========== FAST-FAQ GROUP ==========
+  # Lightweight models for simple FAQs, order status, quick lookups
+  # Priority: Speed and cost-efficiency
+  
+  - model_name: fast-faq
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-exp:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      rpm: 50
+      timeout: 10
+      max_tokens: 500
+      temperature: 0.3
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: false
+  
+  # Fallback for fast-faq (if primary fails)
+  - model_name: fast-faq
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-8b-instruct:free
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      rpm: 40
+      timeout: 15
+      max_tokens: 500
+      temperature: 0.3
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: false
+
+  # ========== DEEP-SUPPORT GROUP ==========
+  # More capable models for complex queries, complaints, multi-step reasoning
+  # Priority: Quality and reasoning capability
+  
+  - model_name: deep-support
+    litellm_params:
+      model: openrouter/google/gemini-2.5-flash
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      rpm: 30
+      timeout: 30
+      max_tokens: 2000
+      temperature: 0.5
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: false
+  
+  # Fallback for deep-support (if primary fails)
+  - model_name: deep-support
+    litellm_params:
+      model: openrouter/anthropic/claude-3.5-haiku
+      api_base: https://openrouter.ai/api/v1
+      api_key: os.environ/OPENROUTER_API_KEY
+      rpm: 25
+      timeout: 40
+      max_tokens: 2000
+      temperature: 0.5
+    model_info:
+      mode: chat
+      supports_function_calling: true
+      supports_vision: false
+
+# Router configuration
+router_settings:
+  routing_strategy: simple-shuffle  # Round-robin within group, then fallback
+  num_retries: 2
+  retry_after: 3
+  allowed_fails: 3
+  fallbacks:
+    - fast-faq: [deep-support]  # If fast-faq fails completely, try deep-support
+    - deep-support: [fast-faq]  # If deep-support fails, fallback to fast-faq
+
+# General settings
+general_settings:
+  master_key: sk-1234  # Simple auth for proxy (change in production)
+  database_url: null  # Optional: add SQLite/Postgres for request logging
+  
+  # Logging
+  log_level: INFO
+  json_logs: false
+  
+  # Performance
+  num_workers: 4
+  drop_params: true  # Drop unsupported params instead of erroring
+  
+  # Callbacks (optional - for observability)
+  success_callback: []
+  failure_callback: []
+
+# Environment variables required:
+# - OPENROUTER_API_KEY: Your OpenRouter API key

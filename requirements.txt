@@ -6,6 +6,9 @@ google-adk==2.1.0
 litellm==1.83.0
 python-dotenv==1.0.0
 
+# Day 07: LiteLLM Proxy support
+litellm[proxy]>=1.83.0  # Includes proxy server capabilities
+
 # Day 04: PostgreSQL and Redis
 psycopg2-binary>=2.9.9
 redis==5.2.1

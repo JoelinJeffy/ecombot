@@ -7,12 +7,12 @@ capstone can later route product-specific queries here instead of
 overloading the general support agent.
 """
 
-from google.adk.agents import LlmAgent
-from google.adk.models.lite_llm import LiteLlm
+from google .adk .agents import LlmAgent 
+from google .adk .models .lite_llm import LiteLlm 
 
-from src.config.settings import MODEL
+from src .config .settings import MODEL 
 
-PRODUCT_INSTRUCTION = """
+PRODUCT_INSTRUCTION ="""
 You are eComBot's product discovery specialist for an electronics
 e-commerce store.
 
@@ -27,11 +27,11 @@ Guidelines:
   live prices you don't have access to.
 - Compare trade-offs clearly (e.g. battery life vs performance).
 - Redirect order-status or billing questions to general support.
-""".strip()
+""".strip ()
 
-product_agent = LlmAgent(
-    name="ecombot_product_agent",
-    model=LiteLlm(model=MODEL),
-    instruction=PRODUCT_INSTRUCTION,
-    description="Helps customers discover and compare electronics products.",
+product_agent =LlmAgent (
+name ="ecombot_product_agent",
+model =LiteLlm (model =MODEL ),
+instruction =PRODUCT_INSTRUCTION ,
+description ="Helps customers discover and compare electronics products.",
 )

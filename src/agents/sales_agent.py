@@ -6,12 +6,12 @@ Part of the Day 02 repository layout. Handles sales-oriented queries
 support_agent.py and product_agent.py.
 """
 
-from google.adk.agents import LlmAgent
-from google.adk.models.lite_llm import LiteLlm
+from google .adk .agents import LlmAgent 
+from google .adk .models .lite_llm import LiteLlm 
 
-from src.config.settings import MODEL
+from src .config .settings import MODEL 
 
-SALES_INSTRUCTION = """
+SALES_INSTRUCTION ="""
 You are eComBot's sales assistant for an electronics e-commerce store.
 
 Your job is to help customers with deals, bundles, and upgrade
@@ -25,11 +25,11 @@ Guidelines:
 - If asked for current deals, say clearly that you don't have access
   to live promotions and suggest checking the store's current deals page.
 - Stay focused on electronics e-commerce; redirect unrelated requests.
-""".strip()
+""".strip ()
 
-sales_agent = LlmAgent(
-    name="ecombot_sales_agent",
-    model=LiteLlm(model=MODEL),
-    instruction=SALES_INSTRUCTION,
-    description="Helps customers with deals, bundles, and upgrade suggestions.",
+sales_agent =LlmAgent (
+name ="ecombot_sales_agent",
+model =LiteLlm (model =MODEL ),
+instruction =SALES_INSTRUCTION ,
+description ="Helps customers with deals, bundles, and upgrade suggestions.",
 )
