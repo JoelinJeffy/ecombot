@@ -1,8 +1,11 @@
 """
-embed_catalog.py -- Build ChromaDB vector store from knowledge base (Day 05)
------------------------------------------------------------------------------
-Loads product catalog and FAQ data, splits into chunks, embeds with OpenAI,
-and stores in ChromaDB collection for retrieval.
+embed_catalog.py -- Build ChromaDB vector store from knowledge base (Day 05-06)
+--------------------------------------------------------------------------------
+Loads product catalog, FAQ data, and PDF documents, splits into chunks,
+and stores in ChromaDB collection for retrieval with rich metadata.
+
+Day 05: JSON-based product and FAQ indexing
+Day 06: PDF document support with section-aware chunking and metadata
 
 Run:
     python -m src.rag.embed_catalog
@@ -119,18 +122,46 @@ def chunk_faq(faq_item: Dict[str, Any]) -> Dict[str, Any]:
 # No need for OpenAI API - uses sentence-transformers locally
 
 
+def load_pdfs() -> List[Dict[str, Any]]:
+    """
+    Load and process all PDF files in data/ directory (Day 06).
+    Returns chunks with metadata from PDFs.
+    """
+    from src.rag.pdf_processor import process_pdf_file
+    
+    pdf_files = list(DATA_DIR.glob("*.pdf"))
+    all_chunks = []
+    
+    for pdf_path in pdf_files:
+        try:
+            logger.info(f"Processing PDF: {pdf_path.name}")
+            chunks = process_pdf_file(
+                pdf_path,
+                chunk_size=1000,
+                chunk_overlap=200
+            )
+            all_chunks.extend(chunks)
+        except Exception as e:
+            logger.error(f"Failed to process {pdf_path.name}: {e}")
+    
+    return all_chunks
+
+
 def build_vector_store():
     """
     Main function to build the ChromaDB vector store.
     Uses ChromaDB's default embedding function (sentence-transformers) - no API key needed!
+    
+    Day 05: Indexes JSON product and FAQ data
+    Day 06: Indexes PDF documents with rich metadata
     """
     # Load data
     print("Loading knowledge base...")
     products = load_products()
     faqs = load_faq()
     
-    # Create chunks
-    print("Creating chunks...")
+    # Create chunks from JSON
+    print("Creating chunks from JSON data...")
     all_chunks = []
     
     for product in products:
@@ -139,7 +170,19 @@ def build_vector_store():
     for faq in faqs:
         all_chunks.append(chunk_faq(faq))
     
-    print(f"Created {len(all_chunks)} chunks")
+    print(f"  JSON: {len(all_chunks)} chunks")
+    
+    # Load and process PDFs (Day 06)
+    print("Processing PDF documents...")
+    try:
+        pdf_chunks = load_pdfs()
+        all_chunks.extend(pdf_chunks)
+        print(f"  PDF: {len(pdf_chunks)} chunks")
+    except Exception as e:
+        logger.warning(f"PDF processing failed (may not have PDFs yet): {e}")
+        print(f"  PDF: 0 chunks (skipped)")
+    
+    print(f"Total: {len(all_chunks)} chunks")
     
     # Extract texts and metadata
     texts = [chunk["text"] for chunk in all_chunks]

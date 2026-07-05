@@ -13,3 +13,7 @@ redis==5.2.1
 # Day 05: RAG with ChromaDB (uses built-in embeddings, no API key needed)
 chromadb>=1.0.0
 numpy>=2.0.0 , <2.8.0
+
+# Day 06: PDF knowledge base support
+pymupdf>=1.23.0  # PDF text extraction with page/section detection
+reportlab>=4.0.0  # PDF generation for sample documents

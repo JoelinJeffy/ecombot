@@ -130,21 +130,66 @@ def retrieve_faq(query: str, n_results: int = 3) -> List[Dict[str, Any]]:
     return retrieve(query, n_results=n_results, filter_metadata={"type": "faq"})
 
 
-def format_context(results: List[Dict[str, Any]]) -> str:
+def format_context(results: List[Dict[str, Any]], include_metadata: bool = True) -> str:
     """
     Format retrieved chunks into a context string for the agent.
     
     Args:
         results: List of retrieval results
+        include_metadata: Whether to include source metadata in context (Day 06)
     
     Returns:
         Formatted context string
+    
+    Day 06 enhancement: Includes source file, page, and section metadata for traceability.
     """
     if not results:
         return ""
     
     context = "Retrieved knowledge:\n\n"
     for i, result in enumerate(results, 1):
-        context += f"[{i}] {result['text']}\n\n"
+        context += f"[{i}] {result['text']}"
+        
+        # Add metadata citation (Day 06)
+        if include_metadata and result.get('metadata'):
+            meta = result['metadata']
+            source_parts = []
+            
+            if meta.get('source_file'):
+                source_parts.append(f"Source: {meta['source_file']}")
+            if meta.get('page'):
+                source_parts.append(f"Page {meta['page']}")
+            if meta.get('section'):
+                source_parts.append(f"Section: {meta['section']}")
+            
+            if source_parts:
+                context += f"\n   ({', '.join(source_parts)})"
+        
+        context += "\n\n"
     
     return context.strip()
+
+
+def format_metadata_for_display(metadata: Dict[str, Any]) -> str:
+    """
+    Format metadata for human-readable display (Day 06).
+    
+    Useful for debugging and test validation.
+    """
+    parts = []
+    
+    if metadata.get('document_title'):
+        parts.append(f"Document: {metadata['document_title']}")
+    elif metadata.get('product_name'):
+        parts.append(f"Product: {metadata['product_name']}")
+    
+    if metadata.get('page'):
+        parts.append(f"Page: {metadata['page']}")
+    
+    if metadata.get('section'):
+        parts.append(f"Section: {metadata['section']}")
+    
+    if metadata.get('type'):
+        parts.append(f"Type: {metadata['type']}")
+    
+    return " | ".join(parts) if parts else "No metadata"
