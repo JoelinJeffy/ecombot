@@ -11,43 +11,43 @@ call sites (`from src.common import ask, make_runner, ...`) keep
 working without change.
 """
 
-import textwrap
+import textwrap 
 
-from google.adk.runners import Runner
-from google.genai import types
+from google .adk .runners import Runner 
+from google .genai import types 
 
-from src.session import make_runner  # noqa: F401  (re-exported for callers)
-
-
-def divider(title: str) -> None:
-    width = 70
-    print("\n" + "=" * width)
-    print(f"  {title}")
-    print("=" * width)
+from src .session import make_runner 
 
 
-def label(tag: str) -> None:
-    print(f"\n  [{tag}]")
+def divider (title :str )->None :
+    width =70 
+    print ("\n"+"="*width )
+    print (f"  {title }")
+    print ("="*width )
 
 
-def wrap(text: str, indent: int = 4) -> str:
-    prefix = " " * indent
-    return textwrap.fill(text, width=74, initial_indent=prefix, subsequent_indent=prefix)
+def label (tag :str )->None :
+    print (f"\n  [{tag }]")
 
 
-def _build_message(text: str) -> types.Content:
-    return types.Content(role="user", parts=[types.Part(text=text)])
+def wrap (text :str ,indent :int =4 )->str :
+    prefix =" "*indent 
+    return textwrap .fill (text ,width =74 ,initial_indent =prefix ,subsequent_indent =prefix )
 
 
-async def ask(runner: Runner, user_id: str, session_id: str, question: str) -> str:
+def _build_message (text :str )->types .Content :
+    return types .Content (role ="user",parts =[types .Part (text =text )])
+
+
+async def ask (runner :Runner ,user_id :str ,session_id :str ,question :str )->str :
     """Send one user message and return the agent's final text reply."""
-    reply_text = ""
-    async for event in runner.run_async(
-        user_id=user_id,
-        session_id=session_id,
-        new_message=_build_message(question),
+    reply_text =""
+    async for event in runner .run_async (
+    user_id =user_id ,
+    session_id =session_id ,
+    new_message =_build_message (question ),
     ):
-        if event.is_final_response():
-            if event.content and event.content.parts:
-                reply_text = event.content.parts[0].text or ""
-    return reply_text.strip()
+        if event .is_final_response ():
+            if event .content and event .content .parts :
+                reply_text =event .content .parts [0 ].text or ""
+    return reply_text .strip ()
